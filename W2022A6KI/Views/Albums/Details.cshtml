@@ -1,0 +1,137 @@
+﻿@model W2022A6KI.Models.AlbumWithDetailViewModel
+
+@{
+    ViewBag.Title = "Album Details";
+}
+
+<h2>@Model.Name</h2>
+
+<div>
+    <h4>Album Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UrlAlbum)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.UrlAlbum)*@
+            <img src="@Model.UrlAlbum" class="img-responsive img-rounded" style="width:200px;height:auto;" />
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Coordinator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Coordinator)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TracksCount)
+        </dt>
+
+        <dd>
+            <span class="badge">@Html.DisplayFor(model => model.TracksCount)</span>
+    </dd>
+
+        @if (Model.TracksCount > 0)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Tracks)
+            </dt>
+
+            <dd>
+                @foreach (var track in Model.Tracks)
+                {
+
+                    <div>@Html.DisplayFor(modelItem => track.Name)</div>
+
+                }
+            </dd>
+        }
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtistsCount)
+        </dt>
+
+        <dd>
+            <span class="badge">@Html.DisplayFor(model => model.ArtistsCount)</span>
+        </dd>
+
+        @if (Model.ArtistsCount > 0)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Artists)
+            </dt>
+
+            <dd>
+                @foreach (var artist in Model.Artists)
+                {
+
+                    <div>@Html.DisplayFor(modelItem => artist.Name)</div>
+
+                }
+            </dd>
+        }
+
+        <hr />
+
+        @if (!Model.Background.IsEmpty())
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Background)
+            </dt>
+
+            <dd>
+                <div class="panel panel-default panel-body">
+                    @Html.Raw(Model.Background)
+                </div>
+            </dd>
+        }
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+    @if (User.IsInRole("Clerk"))
+    {
+    <span>| @Html.ActionLink("Add Track to this album", "AddTrack", new { id = Model.Id })</span>
+    }
+</p>

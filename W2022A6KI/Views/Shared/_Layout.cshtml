@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!-- Do not modify the meta properties below -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="e284aa14-4d7d-4dc4-be29-2ffc878df7ff" />
+    <meta name="application-name" content="2221-W2022A6KI" />
+
+    <title>@ViewBag.Title - Music Biz w/ Media Items</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @{
+        var userAccount = new W2022A6KI.Controllers.RequestUser(User as System.Security.Claims.ClaimsPrincipal);
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script></head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Music Biz", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Artists", "Index", "Artists")</li>
+                        <li>@Html.ActionLink("Albums", "Index", "Albums")</li>
+                        <li>@Html.ActionLink("Tracks", "Index", "Tracks")</li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+           @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; Winter @DateTime.Now.Year - WEB 524 - Iurii Kondrakov @@ ikondrakov</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

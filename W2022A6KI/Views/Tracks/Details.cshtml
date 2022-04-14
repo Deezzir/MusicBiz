@@ -1,0 +1,129 @@
+﻿@model W2022A6KI.Models.TrackWithDetailViewModel
+
+@{
+    ViewBag.Title = "Track Details";
+}
+
+
+<h2>@Model.Name</h2>
+
+<div>
+    <h4>Track Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <hr />
+
+        <div id="sample_container" style="display: none">
+            <dt>
+                @Html.DisplayNameFor(model => model.SampleUpload)
+            </dt>
+            <dd id="sample"></dd>
+            <hr />
+        </div>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Composers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Composers)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Clerk)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clerk)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AlbumsCount)
+        </dt>
+
+        <dd>
+            <span class="badge">@Html.DisplayFor(model => model.AlbumsCount)</span>
+    </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Albums)
+        </dt>
+
+        <dd>
+            @foreach (var album in Model.Albums)
+            {
+
+                <div>@Html.DisplayFor(modelItem => album.Name)</div>
+
+            }
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtistsCount)
+        </dt>
+
+        <dd>
+            <span class="badge">@Html.DisplayFor(model => model.ArtistsCount)</span>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Artists)
+        </dt>
+
+        <dd>
+            @foreach (var artist in Model.Artists)
+            {
+
+                <div>@Html.DisplayFor(modelItem => artist.Name)</div>
+
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<script>
+    function toggleSample() {
+        console.log('Error while loading the sample')
+        document.querySelector('#sample').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', (e) => {
+
+        var sample = document.createElement('audio');
+        sample.setAttribute('src', '/clip/@Model.Id');
+        sample.setAttribute('controls', 'controls');
+        sample.load();
+
+        sample.addEventListener('loadeddata', function () {
+            document.querySelector('#sample').appendChild(sample);
+            document.querySelector('#sample_container').style.display = "block";
+        });
+
+    });
+</script>

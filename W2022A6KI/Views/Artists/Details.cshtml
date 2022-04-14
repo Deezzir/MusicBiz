@@ -1,0 +1,225 @@
+﻿@model W2022A6KI.Models.ArtistWithDetailViewModel
+
+@{
+    ViewBag.Title = "Artist Details";
+}
+
+<h2>@Model.Name</h2>
+
+<div>
+    <h4>Artist Details</h4>
+    <hr />
+    <dl class="dl-horizontal ">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthName)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthOrStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthOrStartDate)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UrlArtist)
+        </dt>
+
+        <dd>
+            <img src="@Model.UrlArtist" class="img-responsive img-rounded" style="width:300px;height:auto;" />
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Executive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Executive)
+        </dd>
+
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AlbumsCount)
+        </dt>
+
+        <dd>
+            <span class="badge">@Html.DisplayFor(model => model.AlbumsCount)</span>
+        </dd>
+
+        @if (Model.AlbumsCount > 0)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Albums)
+            </dt>
+
+            <dd>
+                @foreach (var album in Model.Albums)
+                {
+                    <div>@Html.DisplayFor(modelItem => album.Name)</div>
+                }
+            </dd>
+        }
+
+        <hr />
+
+        @if (!Model.Portrayal.IsEmpty())
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Portrayal)
+            </dt>
+
+            <dd>
+                <div class="panel panel-default panel-body">
+                    @Html.Raw(Model.Portrayal)
+                </div>
+            </dd>
+        }
+
+        @if (Model.ArtistMediaItems.Count() > 0)
+        {
+
+            if (Model.ArtistMediaItems.FirstOrDefault(m => m.ContentType.Contains("image/")) != null)
+            {
+                <dt> Photos </dt>
+                <dd>
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var item in Model.ArtistMediaItems.Where(m => m.ContentType.Contains("image/")))
+                            {
+                                <div class="col-lg-4 col-md-6 col-sm-7 col-xs-8 text-center center-block" style="padding-left:0">
+                                    <div class="thumbnail">
+                                        <img src="~/media/@item.StringId" alt="@item.Caption" title="@item.Caption" class="img-thumbnail img-responsive" style="height:300px; object-fit:cover" />
+                                        <div class="caption">
+                                            <p>@item.Caption</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </dd>
+                <hr />
+            }
+
+            if (Model.ArtistMediaItems.FirstOrDefault(m => m.ContentType.Contains("audio/")) != null)
+            {
+                <dt> Audio </dt>
+                <dd>
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var item in Model.ArtistMediaItems.Where(m => m.ContentType.Contains("audio/")))
+                            {
+                                <div class="col-lg-4 col-md-6 col-sm-7 col-xs-8" style="padding-left:0">
+                                    <span>@item.Caption</span><br />
+                                    <audio src="~/media/@item.StringId" controls="controls" style="padding-top: 10px" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </dd>
+                <hr />
+            }
+
+            if (Model.ArtistMediaItems.FirstOrDefault(m => m.ContentType.Contains("video/")) != null)
+            {
+                <dt> Video </dt>
+                <dd>
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var item in Model.ArtistMediaItems.Where(m => m.ContentType.Contains("video/")))
+                            {
+                                <div class="col-lg-4 col-md-6 col-sm-8" style="padding-left:0">
+                                    <span>@item.Caption</span><br />
+                                    <video src="~/media/@item.StringId" controls="controls" style="width: 350px; padding-top: 10px" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </dd>
+                <hr />
+            }
+
+            if (Model.ArtistMediaItems.FirstOrDefault(m => m.ContentType.Contains("application/")) != null)
+            {
+                <dt> Documents </dt>
+                <dd>
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var item in Model.ArtistMediaItems.Where(m => m.ContentType.Contains("application/")))
+                            {
+                                <div class="col-lg-3 col-md-4 col-sm-6" style="padding-left: 0">
+                                    <span>@item.Caption</span><br />
+                                    <a href="~/media/@item.StringId/download" style="padding-top: 10px">
+                                        @{
+                                            var src = "";
+                                            if (item.ContentType.Contains("pdf"))
+                                            {
+                                                src = "/Images/pdf.png";
+                                            }
+                                            else if (item.ContentType.Contains("word"))
+                                            {
+                                                src = "/Images/word.png";
+                                            }
+                                            else if (item.ContentType.Contains("spreadsheet"))
+                                            {
+                                                src = "/Images/excel.png";
+                                            }
+                                            else
+                                            {
+                                                src = "/Images/document.png";
+                                            }
+                                        }
+                                        <img src=@src style="height: 80px; width:auto" />
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </dd>
+                <hr />
+            }
+        }
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+    @if (User.IsInRole("Coordinator"))
+    {
+        <span>
+            | @Html.ActionLink("Add Media Item to this artist", "AddMediaItem", new { id = Model.Id }) |
+            @Html.ActionLink("Add Album to this artist", "AddAlbum", new { id = Model.Id })
+        </span>
+    }
+</p>

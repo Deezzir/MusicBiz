@@ -1,0 +1,107 @@
+﻿@model W2022A6KI.Models.AlbumAddFormViewModel
+
+@{
+    ViewBag.Title = "Add Album";
+    var initial = Model.GenreList.First();
+}
+
+<script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+
+<h2>Add Album for @Model.ArtistName</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Complete the form and click <b>Add</b> button</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GenreList, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="Genre" class="form-control">
+                    @foreach (var alb in Model.GenreList)
+                    {
+                        <option value="@alb.Value" selected="@(alb.Value == initial.Value)">@alb.Text</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.GenreList, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UrlAlbum, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UrlAlbum, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UrlAlbum, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Background, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Background, new { htmlAttributes = new { @class = "form-control", @rows = 10 } })
+                @Html.ValidationMessageFor(model => model.Background, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row form-group">
+                <div class="col-md-4 well" style="margin-right: 15px">
+                    @Html.LabelFor(model => model.ArtistList)
+                    @foreach (var artist in Model.ArtistList)
+                    {
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="ArtistIds" checked="@artist.Selected" value="@artist.Value" />@artist.Text</label>
+                        </div>
+                    }
+                    @Html.ValidationMessageFor(model => model.ArtistList, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4 well">
+                    @Html.LabelFor(model => model.TrackList)
+                    @foreach (var track in Model.TrackList)
+                    {
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="TrackIds" checked="@track.Selected" value="@track.Value" />@track.Text</label>
+                        </div>
+                    }
+                    @Html.ValidationMessageFor(model => model.TrackList, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Add" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <script>CKEDITOR.replace('Background');</script>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
